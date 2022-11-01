@@ -6,11 +6,13 @@
 /*   By: mdouzi <mdouzi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/01 16:19:44 by mdouzi            #+#    #+#             */
-/*   Updated: 2022/11/01 19:25:58 by mdouzi           ###   ########.fr       */
+/*   Updated: 2022/11/01 22:03:55 by mdouzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get-next-line.h"
+
+
 
 char *get_next_line(int fd)
 {
