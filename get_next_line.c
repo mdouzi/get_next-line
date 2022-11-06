@@ -47,7 +47,7 @@ char* ft_strjoin(char* str1, char* str2) {
 	}
 	return ret;
 }
-
+/////////////////////////////////////////////////////////
 char* extract_line_from_save(char* save) {
 	if (!save)
 		return NULL;
@@ -109,6 +109,7 @@ char* read_nl(int fd, char* save) {
 		}
 		buffer[rb] = 0;
 		save = ft_strjoin(save, buffer);
+
 	}
 
 	free(buffer);
@@ -127,13 +128,16 @@ char* get_next_line(int fd) {
 	return line;
 }
 
-// int main(int argc, char const *argv[])
-// {
-// 	int fd = open("file.txt", O_RDONLY);
-// 	printf("line: %s", get_next_line(fd));
-// 	printf("line: %s", get_next_line(fd));
-// 	printf("line: %s", get_next_line(fd));
-// 	printf("line: %s\n", get_next_line(fd));
-// 	printf("line: %s", get_next_line(fd));
-// 	return 0;
-// }
+int main(int argc, char const *argv[])
+{
+	int fd = open("file.txt", O_RDONLY);
+	printf("line: %s", get_next_line(fd));
+	printf("line: %s", get_next_line(fd));
+	printf("line: %s", get_next_line(fd));
+	printf("line: %s\n", get_next_line(fd));
+	printf("line: %s", get_next_line(fd));
+	printf("line: %s", get_next_line(fd));
+	printf("line: %s", get_next_line(fd));
+	printf("line: %s", get_next_line(fd));
+	return 0;
+}
