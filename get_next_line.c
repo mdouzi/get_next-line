@@ -1,83 +1,119 @@
-#include <unistd.h>
-#include <stdio.h>
-#include <stdlib.h>
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mdouzi <mdouzi@student.1337.ma>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/11/11 16:15:00 by mdouzi            #+#    #+#             */
+/*   Updated: 2022/11/11 20:14:13 by mdouzi           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-#define BUFFER_SIZE 1
-int ft_strlen(char *str)
+
+#include "get_next_line.h"
+
+#define BUFFER_SIZE 150
+
+char	*ft_line(char *save)
 {
-    int i;
-    i = 0;
-    while(str[i])
-        i++;
-    return(i);
+	if(!save)
+		return (NULL);
+	char	*line;
+	int		i;
+	
+	i = 0;
+	while (save[i] && save[i] != '\n')
+		i++;
+	if (save[i] == '\n')
+		i++;
+	line = (char *)malloc(sizeof(char) * (i + 1));
+	if (!line)
+		return (NULL);
+	i = 0;
+	while (save[i] && save[i] != '\n')
+	{
+		line[i] = save[i];
+		i++;
+	}
+	if (save[i] == '\n')
+	{
+		line[i] = save[i];
+		i++;
+	}
+	line[i] = '\0';
+	return (line);
 }
 
-int ft_strchr(char *str, char c) 
+char	*new_line(char *save)
 {
-    int i;
-    i = 0;
+	if (!save)
+		return (NULL);
+	char *res;
+	int i;
+	i = 0;
+	int j;
+	j = 0;
 
-    while (str[i])
-    {
-        if(str[i] == c)
-            return 1;
-        i++;
-    }
-    return(NULL);
+	while(save[i] && save[i] != '\n')
+		i++;
+	if(save[i] == '\n')
+		i++;
+
+	if(!(res = (char *)malloc(sizeof(char) * (ft_strlen(save) - i + 1))))
+		return (NULL);
+	while(save[i])
+	{
+		res[j] = save[i];
+		i++;
+		j++;
+	}
+	res[j] = '\0';
+	free(save);
+	return (res);
 }
-
-
-char *strjoin(char *s1, char *s2)
-{
-    int i;
-    int size;
-    int j;
-    char *str;
-    size = ft_strlen(s1) + ft_strlen(s2);
-    str = malloc(sizeof(char) * size + 1);
-    i = 0;
-    j = 0;
-
-    while(s1[i])
-    {
-        str[i] = s1[i];
-        i++;
-    }
-    while(s2[j])
-    {
-        str[i] = s2[j];
-        i++;
-        j++;
-    }
-    str[i] = '\0';
-    return(str);
-}
-
 
 char *get_next_line(int fd)
 {
-    int rd;
-    char *buffer;
-    char *current;
-    static char *next;
-    next = NULL;
-
-    if(fd < 0 && BUFFER_SIZE <= 0)
-        return  NULL;
-    buffer = malloc(sizeof(char) * BUFFER_SIZE + 1);
-    if(!buffer)
-        return(NULL);
-    rd = 1;
-while((ft_strch(next, '\n') && rd != 0 ))
-{
-    rd = read(fd, buffer, BUFFER_SIZE);
-    if(rd <= 0)
-        break;
-    buffer[rd] = '\0';
-    next = ft_strjoin(next, buffer);
+	static char	*save;
+	char		*buffer;
+	int			rd;
+	char		*line;
+	// printf("save : %s\n", save);
+	
+	buffer = (char *)malloc((BUFFER_SIZE + 1) * sizeof(char));
+	rd = 1;
+	while (strchr(buffer, '\n') == 0 && rd != 0)
+	{
+		rd = read(fd, buffer, BUFFER_SIZE);
+		if(rd == -1)
+		{
+			free(save);
+			free(buffer);
+		}
+		buffer[rd] = '\0';
+		save = ft_strjoin(save, buffer);
+	}
+	free(buffer);
+	line = ft_line(save);
+	save = new_line(save);
+	return (line);
 }
-free(buffer);
 
+#include <string.h>
 
-    
+int main()
+{
+	int fd;
+
+	fd = open("file.txt", O_RDONLY);
+	printf("%s", get_next_line(fd));
+	printf("%s", get_next_line(fd));
+	printf("%s", get_next_line(fd));
+	printf("%s", get_next_line(fd));
+	printf("%s", get_next_line(fd));
+	printf("%s", get_next_line(fd));
+	printf("%s", get_next_line(fd));
+	printf("%s", get_next_line(fd));
+	
 }
