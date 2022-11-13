@@ -6,10 +6,9 @@
 /*   By: mdouzi <mdouzi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/11 16:15:00 by mdouzi            #+#    #+#             */
-/*   Updated: 2022/11/11 20:14:13 by mdouzi           ###   ########.fr       */
+/*   Updated: 2022/11/13 23:22:07 by mdouzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "get_next_line.h"
 
@@ -17,12 +16,10 @@ char	*ft_line(char *save)
 {
 	if(!save[0])
 	{
-		free(save);
-		return (NULL);
+		return NULL;
 	};
 	char	*line;
 	int		i;
-	
 	i = 0;
 	while (save[i] && save[i] != '\n')
 		i++;
@@ -36,6 +33,7 @@ char	*ft_line(char *save)
 	{
 		line[i] = save[i];
 		i++;
+		
 	}
 	if (save[i] && save[i] == '\n')
 	{
@@ -47,21 +45,22 @@ char	*ft_line(char *save)
 
 char	*new_line(char *save)
 {
-	if (!save)
-		return (NULL);
+	if (!save[0])
+	{
+		free(save);
+		return NULL;
+	}
 	char *res;
 	int i;
 	i = 0;
 	int j;
 	j = 0;
-
 	while(save[i] && save[i] != '\n')
 		i++;
-	if(save[i] == '\n')
+	if(save[i] && save[i] == '\n')
 		i++;
-	if(!(res = (char *)malloc(sizeof(char) * (ft_strlen(save) - i + 1))))
+	if(!(res = (char *)calloc(sizeof(char) ,(ft_strlen(save) - i + 1))))
 		return (NULL);
-
 	while(save[i])
 	{
 		res[j] = save[i];
@@ -79,7 +78,8 @@ char *get_next_line(int fd)
 	char		*buffer;
 	int			rd;
 	char		*line;
-	// printf("save : %s\n", save);
+	if (fd < 0 || BUFFER_SIZE <= 0)
+		return (0);
 	buffer = (char *)calloc((BUFFER_SIZE + 1) , sizeof(char));
 	if(!buffer)
 		return NULL;	
@@ -89,7 +89,9 @@ char *get_next_line(int fd)
 		rd = read(fd, buffer, BUFFER_SIZE);
 		if(rd == -1)
 		{
-			free(save);
+			printf("91");
+			// if(save)
+			// 	free(save);
 			free(buffer);
 			return NULL;
 		}
@@ -97,41 +99,24 @@ char *get_next_line(int fd)
 		save = ft_strjoin(save, buffer);
 		if(strchr(save,'\n'))
 			break;
-
 	}
 	free(buffer);
 	if(!save)
+	{
+		printf("105");
 		return NULL;
+	}
 	line = ft_line(save);
 	save = new_line(save);
 	return (line);
 }
 
 
-//#include <string.h>
-
-/*int main()
-{
-	int fd;
-	char *s;
-	int i = 8;
-	fd = open("file.txt", O_RDONLY);
-
-	while(i)
-	{
-		s = get_next_line(fd);
-		if(!s)
-			break;
-		printf("%s", s);
-		free(s);
-		i--;
-	}
-	//printf("%s", get_next_line(fd));
-	//printf("%s", get_next_line(fd));
-	//printf("%s", get_next_line(fd));
-	//printf("%s", get_next_line(fd));
-	//printf("%s", get_next_line(fd));
-	//printf("%s", get_next_line(fd));
-	//printf("%s", get_next_line(fd));
+// int main()
+// {
+// 	int fd;
+// 	fd = open("file.txt", O_RDONLY);
+// 	char *s = get_next_line(fd);
+// 	printf("%s",s);
 	
-}*/
+// }	

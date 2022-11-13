@@ -1,8 +1,0 @@
-hello, this is a line
-*********************
-hello, this is a ----
-ok!
-hello, this is a ++++
-
-
-hello, this is a line

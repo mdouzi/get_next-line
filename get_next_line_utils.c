@@ -6,9 +6,12 @@
 /*   By: mdouzi <mdouzi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 21:57:31 by mdouzi            #+#    #+#             */
-/*   Updated: 2022/11/11 19:10:17 by mdouzi           ###   ########.fr       */
+/*   Updated: 2022/11/13 23:31:16 by mdouzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "get_next_line.h"
+
 
 #include "get_next_line.h"
 
@@ -39,13 +42,15 @@ char* ft_strjoin(char* str1, char* str2) {
 		str1_len = ft_strlen(str1);
 	if (!str1) {
 		str1 = (char*)calloc(sizeof(char) ,1);
-		*str1 = 0;
+		str1[0] = '\0';
 		str1_len = 0;
 	}
 	if (!str1 || !str2)
 		return (NULL);
 	int str2_len = ft_strlen(str2);
 	char* ret = (char*)calloc(sizeof(char) , (str1_len + str2_len + 1));
+	if(!ret)
+		return NULL;
 	while (str1[i]) {
 		ret[i] = str1[i];
 		i++;
