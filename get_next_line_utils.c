@@ -34,15 +34,18 @@ int ft_strchr(char* str, char c) {
 char* ft_strjoin(char* str1, char* str2) {
 	int i = 0;
 	int j = 0;
+	int str1_len;
+	if(str1)
+		str1_len = ft_strlen(str1);
 	if (!str1) {
-		str1 = (char*)malloc(sizeof(char) * 1);
+		str1 = (char*)calloc(sizeof(char) ,1);
 		*str1 = 0;
+		str1_len = 0;
 	}
 	if (!str1 || !str2)
 		return (NULL);
-	int str1_len = ft_strlen(str1);
 	int str2_len = ft_strlen(str2);
-	char* ret = (char*)malloc(sizeof(char) * (str1_len + str2_len + 1));
+	char* ret = (char*)calloc(sizeof(char) , (str1_len + str2_len + 1));
 	while (str1[i]) {
 		ret[i] = str1[i];
 		i++;
@@ -54,6 +57,7 @@ char* ft_strjoin(char* str1, char* str2) {
 		i++;
 		j++;
 	}
+	ret[j] = '\0';
 	free(str1);
 	return ret;
 }
