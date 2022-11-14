@@ -6,7 +6,7 @@
 /*   By: mdouzi <mdouzi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/01 21:56:36 by mdouzi            #+#    #+#             */
-/*   Updated: 2022/11/11 19:09:36 by mdouzi           ###   ########.fr       */
+/*   Updated: 2022/11/14 20:19:57 by mdouzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,5 +25,6 @@ char* get_next_line(int fd);
 int ft_strlen(char* s);
 int ft_strchr(char* str, char c);
 char* ft_strjoin(char* str1, char* str2);
-
+void    *ft_calloc(size_t count, size_t size);
+void    *ft_memset(void *b, int c, size_t len);
 #endif

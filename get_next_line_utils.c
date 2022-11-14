@@ -6,7 +6,7 @@
 /*   By: mdouzi <mdouzi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 21:57:31 by mdouzi            #+#    #+#             */
-/*   Updated: 2022/11/13 23:31:16 by mdouzi           ###   ########.fr       */
+/*   Updated: 2022/11/14 20:19:43 by mdouzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@
 int ft_strlen(char* s) 
 {
 	int i = 0;
+	if(!s)
+		return(0);
 	while (s[i])
 		i++;
 	return i;
@@ -32,6 +34,17 @@ int ft_strchr(char* str, char c) {
 		str++;
 	}
 	return (0);
+}
+
+void    *ft_calloc(size_t count, size_t size)
+{
+        char    *ptr;
+
+        ptr = (char *)malloc((count * size));
+        if (!ptr)
+                return (NULL);
+        ft_memset(ptr, 0, (size * count));
+        return (ptr);
 }
 
 char* ft_strjoin(char* str1, char* str2) {
@@ -65,4 +78,21 @@ char* ft_strjoin(char* str1, char* str2) {
 	ret[j] = '\0';
 	free(str1);
 	return ret;
+}
+
+void    *ft_memset(void *b, int c, size_t len)
+{
+        unsigned char   *p;
+        unsigned char   temp;
+        size_t                  i;
+
+        p = (unsigned char *)b;
+        temp = (unsigned char)c;
+        i = 0;
+        while (i < len)
+        {
+                p[i] = temp;
+                i++;
+        }
+        return (p);
 }
