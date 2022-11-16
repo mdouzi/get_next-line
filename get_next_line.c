@@ -6,11 +6,22 @@
 /*   By: mdouzi <mdouzi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/11 16:15:00 by mdouzi            #+#    #+#             */
-/*   Updated: 2022/11/15 21:17:27 by mdouzi           ###   ########.fr       */
+/*   Updated: 2022/11/16 21:29:50 by mdouzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+
+void	*ft_calloc(size_t count, size_t size)
+{
+	char	*ptr;
+
+	ptr = (char *)malloc((count * size));
+	if (!ptr)
+		return (NULL);
+	ft_memset(ptr, 0, (size * count));
+	return (ptr);
+}
 
 char	*ft_line(char *save)
 {
@@ -59,7 +70,7 @@ char	*new_line(char *save)
 	if (save[i] && save[i] == '\n')
 		i++;
 	res = ft_calloc(sizeof(char), (ft_strlen(save) - i + 1));
-	if(!res)
+	if (!res)
 		return (NULL);
 	while (save[i])
 	{
@@ -69,18 +80,10 @@ char	*new_line(char *save)
 	return (res);
 }
 
-char	*get_next_line(int fd)
+char	*get_helper(char *save, int fd, char *buffer)
 {
-	static char	*save;
-	char		*buffer;
-	int			rd;
-	char		*line;
+	int	rd;
 
-	if (fd < 0 || BUFFER_SIZE <= 0)
-		return (0);
-	buffer = (char *)malloc((BUFFER_SIZE + 1) * sizeof(char));
-	if (!buffer)
-		return (NULL);
 	rd = 1;
 	while (rd > 0)
 	{
@@ -94,10 +97,25 @@ char	*get_next_line(int fd)
 		}
 		buffer[rd] = '\0';
 		save = ft_strjoin(save, buffer);
-		if (strchr(save, '\n'))
+		if (ft_strchr(save, '\n'))
 			break ;
 	}
 	free(buffer);
+	return (save);
+}
+
+char	*get_next_line(int fd)
+{
+	static char	*save;
+	char		*buffer;
+	char		*line;
+
+	if (fd < 0 || BUFFER_SIZE <= 0)
+		return (0);
+	buffer = (char *)malloc((BUFFER_SIZE + 1) * sizeof(char));
+	if (!buffer)
+		return (NULL);
+	save = get_helper(save, fd, buffer);
 	if (!save)
 		return (NULL);
 	line = ft_line(save);

@@ -6,7 +6,7 @@
 /*   By: mdouzi <mdouzi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 21:57:31 by mdouzi            #+#    #+#             */
-/*   Updated: 2022/11/14 22:53:54 by mdouzi           ###   ########.fr       */
+/*   Updated: 2022/11/16 21:37:46 by mdouzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,15 +35,46 @@ int	ft_strchr(char *str, char c)
 	return (0);
 }
 
-void	*ft_calloc(size_t count, size_t size)
+void	*ft_memset(void *b, int c, size_t len)
 {
-	char	*ptr;
+	unsigned char	*p;
+	unsigned char	temp;
+	size_t			i;
 
-	ptr = (char *)malloc((count * size));
-	if (!ptr)
-		return (NULL);
-	ft_memset(ptr, 0, (size * count));
-	return (ptr);
+	p = (unsigned char *)b;
+	temp = (unsigned char)c;
+	i = 0;
+	while (i < len)
+	{
+		p[i] = temp;
+		i++;
+	}
+	return (p);
+}
+
+char	*join_helper(char *ret, char *str1, char *str2)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	j = 0;
+	while (str1[i])
+	{
+		ret[i] = str1[i];
+		i++;
+		j++;
+	}
+	i = 0;
+	while (str2[i])
+	{
+		ret[j] = str2[i];
+		i++;
+		j++;
+	}
+	ret[j] = '\0';
+	free(str1);
+	return (ret);
 }
 
 char	*ft_strjoin(char *str1, char *str2)
@@ -70,37 +101,6 @@ char	*ft_strjoin(char *str1, char *str2)
 	ret = (char *)calloc(sizeof(char), (str1_len + str2_len + 1));
 	if (!ret)
 		return (NULL);
-	while (str1[i])
-	{
-		ret[i] = str1[i];
-		i++;
-		j++;
-	}
-	i = 0;
-	while (str2[i])
-	{
-		ret[j] = str2[i];
-		i++;
-		j++;
-	}
-	ret[j] = '\0';
-	free(str1);
+	ret = join_helper(ret, str1, str2);
 	return (ret);
-}
-
-void	*ft_memset(void *b, int c, size_t len)
-{
-	unsigned char *p;
-	unsigned char temp;
-	size_t i;
-
-	p = (unsigned char *)b;
-	temp = (unsigned char)c;
-	i = 0;
-	while (i < len)
-	{
-		p[i] = temp;
-		i++;
-	}
-	return (p);
 }
