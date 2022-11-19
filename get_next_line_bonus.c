@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mdouzi <mdouzi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/11 16:15:00 by mdouzi            #+#    #+#             */
-/*   Updated: 2022/11/18 21:12:18 by mdouzi           ###   ########.fr       */
+/*   Created: 2022/11/18 20:10:49 by mdouzi            #+#    #+#             */
+/*   Updated: 2022/11/18 21:17:57 by mdouzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 void	*ft_calloc(size_t count, size_t size)
 {
@@ -106,7 +106,7 @@ char	*get_helper(char *save, int fd, char *buffer)
 
 char	*get_next_line(int fd)
 {
-	static char	*save;
+	static char	*save[OPEN_MAX];
 	char		*buffer;
 	char		*line;
 
@@ -115,17 +115,18 @@ char	*get_next_line(int fd)
 	buffer = (char *)malloc((BUFFER_SIZE + 1) * sizeof(char));
 	if (!buffer)
 		return (NULL);
-	save = get_helper(save, fd, buffer);
-	if (!save)
+	save[fd] = get_helper(save[fd], fd, buffer);
+	if (!save[fd])
 		return (NULL);
-	line = ft_get_line(save);
-	save = update_save(save);
+	line = ft_get_line(save[fd]);
+	save[fd] = update_save(save[fd]);
 	return (line);
 }
 
-//  int main()
+// int	main(void)
 // {
-//  	int fd; 	
-//  	fd = open("file.txt", O_RDONLY);
-//  	printf("%s",get_next_line(fd));
+// 	int	fd;
+
+// 	fd = open("file.txt", O_RDONLY);
+// 	printf("%s", get_next_line(fd));
 // }
