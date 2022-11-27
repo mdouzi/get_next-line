@@ -6,7 +6,7 @@
 /*   By: mdouzi <mdouzi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/11 16:15:00 by mdouzi            #+#    #+#             */
-/*   Updated: 2022/11/19 23:06:44 by mdouzi           ###   ########.fr       */
+/*   Updated: 2022/11/27 07:50:55 by mdouzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,9 +123,9 @@ char	*get_next_line(int fd)
 	return (line);
 }
 
-//  int main()
-// {
-//  	int fd; 	
-//  	fd = open("file.txt", O_RDONLY);
-//  	printf("%s",get_next_line(fd));
-// }
+int main()
+{
+	int fd = open("file.txt", O_RDONLY );
+
+	printf("%s", get_next_line(fd));
+}
